@@ -48,7 +48,6 @@
         flex: 0 1 auto;
         min-width: 348px;
         padding: 0 8px;
-        border: 1px solid $gray-D;
         display: flex;
         pointer-events: all;
         opacity: 1;
@@ -85,7 +84,6 @@
         transform-origin: 0% 50%;
         pointer-events: none;
         overflow: hidden;
-        border: 1px solid $gray-D;
 
         > * {
             height: 0;
@@ -111,7 +109,7 @@
         &.out-of-focus {
             transition: all 0.3s ease;
             background-color: #fff;
-            box-shadow: none;
+            box-shadow: inset 0px 0px 0px 1px $gray-D;
         }
         > div {
             &.active {
@@ -199,8 +197,9 @@
     .filter-cta {
         border-radius: 40px;
 
-        box-shadow: rgba(0, 0, 0, 0.03) 0px 1px 2px, rgba(0, 0, 0, 0.03) 0px 2px 4px, rgba(0, 0, 0, 0.03) 0px 4px 8px,
-            rgba(0, 0, 0, 0.03) 0px 8px 16px, rgba(0, 0, 0, 0.03) 0px 16px 32px, rgba(0, 0, 0, 0.03) 0px 32px 64px;
+        box-shadow: inset 0px 0px 0px 1px $gray-D, rgba(0, 0, 0, 0.03) 0px 1px 2px, rgba(0, 0, 0, 0.03) 0px 2px 4px,
+            rgba(0, 0, 0, 0.03) 0px 4px 8px, rgba(0, 0, 0, 0.03) 0px 8px 16px, rgba(0, 0, 0, 0.03) 0px 16px 32px,
+            rgba(0, 0, 0, 0.03) 0px 32px 64px;
         .divider-r {
             border-right: 1px solid #ebebeb;
         }

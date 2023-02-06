@@ -1,0 +1,73 @@
+.img-carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.023) 0px 6px 8px -2px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px;
+    overflow: clip;
+    border-radius: px-to-rem(12px);
+    transition: all 0.3s;
+    margin-bottom: 1.25rem;
+    position: relative;
+    ::selection {
+        background-color: transparent;
+    }
+    .carousel-item {
+        aspect-ratio: 20 / 19;
+        object-fit: cover;
+        object-position: center;
+        position: relative;
+        left: 0;
+        transition: all 0.3s;
+    }
+    .arrow-right,
+    .arrow-left {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        padding: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 2.5rem;
+        box-shadow: rgba(39, 39, 59, 0.323) 0px 6px 8px -2px, rgba(0, 0, 0, 0.15) 0px 3px 7px -3px;
+        opacity: 0;
+        transition: opacity 0.18s ease;
+        font-size: 0.75rem;
+    }
+    .arrow-left {
+        left: 2%;
+    }
+    .arrow-right {
+        right: 2%;
+    }
+    &:hover .arrow-left,
+    &:hover .arrow-right {
+        opacity: 1;
+    }
+
+    .dots-pagination {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        > div {
+            display: inline-flex;
+            border-radius: 55px;
+            width: 6px;
+            height: 6px;
+            background-color: #ffffff7e;
+            &.active {
+                background-color: #ffffffe7;
+            }
+        }
+    }
+}

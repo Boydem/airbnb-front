@@ -1,8 +1,10 @@
+import { ImgCarousel } from './img-carousel'
+
 export function StayPreview({ stay, onSelectStay, onAddToWishlist }) {
     if (!stay) return <div>Loading...</div>
     return (
         <article className='stay-preview'>
-            <imgCarousel imgUrls={stay.imgUrls} />
+            <ImgCarousel imgUrls={stay.imgUrls} />
             <div className='details'>
                 <p className='inline-clamp name'>{stay.name}</p>
                 <p className='inline-clamp labels'>
