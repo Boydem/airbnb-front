@@ -1,0 +1,46 @@
+.main-layout {
+    display: grid;
+    grid-template-columns: $layoutPadding 1fr $layoutPadding;
+
+    > * {
+        grid-column: 2;
+    }
+
+    > *.full {
+        grid-column: 1 / -1;
+    }
+    .side-start {
+        grid-column: 1/-2;
+    }
+
+    .side-end {
+        grid-column: -1/2;
+    }
+
+    .container {
+    }
+    @media (min-width: $break-normal) {
+        & {
+            grid-template-columns: ($layoutPadding * 2) 1fr ($layoutPadding * 2);
+        }
+    }
+}
+.home-layout {
+    display: grid;
+    grid-template-columns: $layoutPadding 1fr $layoutPadding;
+
+    > * {
+        grid-column: 2;
+    }
+
+    > *.full {
+        grid-column: 1 / -1;
+    }
+    .side-start {
+        grid-column: 1/-2;
+    }
+
+    .side-end {
+        grid-column: -1/2;
+    }
+}

@@ -1,0 +1,41 @@
+.stay-preview {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition-duration: 200ms;
+    .images-carousel {
+        @include aspect-ratio(20/19);
+        object-fit: cover;
+        vertical-align: bottom;
+        overflow: clip;
+        border-radius: px-to-em(12px);
+        margin-bottom: px-to-em(12px);
+        flex: 1;
+    }
+    .details {
+        color: $base-text-color;
+        display: grid;
+        gap: 0.4em 0.8em;
+        grid-template-columns: minmax(0, 1fr);
+        flex-direction: column;
+        .name,
+        .labels,
+        .price {
+            font-size: 15px;
+            line-height: 19px;
+        }
+        .name {
+            font-weight: 600;
+        }
+        .labels {
+            color: $gray-B;
+            font-weight: 400;
+        }
+        .price {
+            font-weight: 600;
+            .prefix {
+                font-weight: 400;
+            }
+        }
+    }
+}

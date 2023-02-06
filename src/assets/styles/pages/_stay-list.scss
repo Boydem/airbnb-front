@@ -1,0 +1,7 @@
+.stay-list {
+    margin-top: 3rem;
+    display: grid;
+    grid-auto-flow: row dense;
+    gap: 40px 24px;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
