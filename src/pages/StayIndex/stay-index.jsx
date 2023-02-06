@@ -14,6 +14,7 @@ export function StayIndex() {
 
     // Infinite scroll
     let staysToDisplay = useRef(24)
+
     const handleScroll = ev => {
         if (isLoading) return
         if (window.innerHeight + ev.target.scrollTop >= ev.target.scrollHeight) {

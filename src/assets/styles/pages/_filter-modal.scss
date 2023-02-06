@@ -1,0 +1,57 @@
+.filter-modal {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    padding: 2.75rem 3.5rem 3.25rem;
+    border-radius: 2rem;
+    min-width: 30rem;
+    min-height: 30rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 2px 4px, rgba(0, 0, 0, 0.1) 0px 4px 8px,
+        rgba(0, 0, 0, 0.1) 0px 8px 16px, rgba(0, 0, 0, 0.1) 0px 16px 32px, rgba(0, 0, 0, 0.1) 0px 32px 64px;
+    transform: translateY(calc(100% + 1rem)) translateZ(-100px) perspective(1000px);
+    &.filter-datepicker {
+        right: 0;
+        left: 0;
+        min-width: 100%;
+    }
+    &.filter-guests {
+        left: unset;
+        right: 0;
+    }
+}
+
+.filter-location {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .title {
+        margin-bottom: 2.5rem;
+    }
+    .regions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+        gap: 2rem 1rem;
+        .region {
+            .region-img {
+                background-image: url('../../images/regions/all.webp');
+                background-position: center;
+                background-size: cover;
+                border-radius: 0.5rem;
+                aspect-ratio: 1/1;
+                transition: 0.15s ease;
+                cursor: pointer;
+                margin-bottom: 0.5rem;
+                box-shadow: inset 0px 0px 0px 1px $gray-E;
+                transition: box-shadow 0.15s ease;
+                &.active {
+                    box-shadow: inset 0px 0px 0px 2px $gray-600;
+                }
+                &:hover:not(.active) {
+                    box-shadow: inset 0px 0px 0px 1px $gray-600;
+                }
+            }
+        }
+    }
+}

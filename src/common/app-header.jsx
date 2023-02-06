@@ -3,16 +3,18 @@ import { useSelector } from 'react-redux'
 import airBnbLogo from '../assets/images/logo.svg'
 import { AppLogo } from './app-logo'
 import { BiSearch } from 'react-icons/bi'
+import { FilterLocation } from '../pages/StayIndex/cmps/filter-location'
+import { FilterDatepicker } from '../pages/StayIndex/cmps/filter-datepicker'
+import { FilterGuests } from '../pages/StayIndex/cmps/filter-guests'
+import { setFilter } from '../store/stay/stay.actions'
 export function AppHeader() {
     // const user = useSelector(storeState=>storeState.userModule.user)
     const [isFiltering, setIsFiltering] = useState(false)
     const filterBy = useSelector(storeState => storeState.stayModule.filterBy)
-    const stays = useSelector(storeState => storeState.stayModule.stays)
-    const elHeader = useRef()
     const [activeModule, setActiveModule] = useState(null)
+    const elHeader = useRef()
+    const elFilterForm = useRef()
     const elScreen = useRef()
-
-    useEffect(() => {}, [])
 
     useEffect(() => {
         if (isFiltering) {
@@ -26,10 +28,17 @@ export function AppHeader() {
 
     function onFocusOut({ target }) {
         if (!isFiltering) return
-        setActiveModule(null)
         if (target.classList.contains('screen')) {
             setIsFiltering(false)
+            return
         }
+        if (!elFilterForm.current.contains(target)) {
+            setActiveModule(null)
+        }
+    }
+
+    function onSelectRegion(region) {
+        setFilter({ ...filterBy, whereTo: region })
     }
 
     return (
@@ -43,9 +52,9 @@ export function AppHeader() {
 
                     <div onClick={() => setIsFiltering(true)} className={`filter-cta ${isFiltering ? 'hide' : ''}`}>
                         <button onClick={() => setActiveModule('location')} className='filter-btn text-bold'>
-                            Anylocation
+                            Any location
                         </button>
-                        <button onClick={() => setActiveModule('when-in')} className='filter-btn text-bold'>
+                        <button onClick={() => setActiveModule('when')} className='filter-btn text-bold'>
                             Any week
                         </button>
                         <button onClick={() => setActiveModule('who')} className='filter-btn muted'>
@@ -61,7 +70,10 @@ export function AppHeader() {
 
                     <div className='user'>User</div>
 
-                    <form className={`filter ${isFiltering ? 'shown' : ''} ${!activeModule ? 'out-of-focus' : ''}`}>
+                    <form
+                        ref={elFilterForm}
+                        className={`filter ${isFiltering ? 'shown' : ''} ${!activeModule ? 'out-of-focus' : ''}`}
+                    >
                         <div
                             onClick={() => setActiveModule('location')}
                             className={`location-wrapper ${activeModule === 'location' ? 'active' : ''}`}
@@ -70,11 +82,14 @@ export function AppHeader() {
                                 <div className='text-bold filter-title'>Where</div>
                                 <input type='text' id='locationTo' name='locationTo' value={filterBy.locationTo} />
                             </label>
+                            {activeModule === 'location' && (
+                                <FilterLocation filterBy={filterBy} onSelectRegion={onSelectRegion} />
+                            )}
                         </div>
                         <div className={`dates-wrapper flex align-center`}>
                             <div
-                                onClick={() => setActiveModule('when-in')}
-                                className={`flex column justify-center ${activeModule === 'when-in' ? 'active' : ''}`}
+                                onClick={() => setActiveModule('when')}
+                                className={`flex column justify-center ${activeModule === 'when' ? 'active' : ''}`}
                             >
                                 <div className='text-bold filter-title'>Check in</div>
                                 <div>Add dates</div>
@@ -98,7 +113,11 @@ export function AppHeader() {
                             <button type={'submit'} className='filter-btn btn-icon primary circled large'>
                                 <BiSearch />
                             </button>
+                            {activeModule === 'who' && <FilterGuests filterBy={filterBy} />}
                         </div>
+                        {(activeModule === 'when' || activeModule === 'when-out') && (
+                            <FilterDatepicker filterBy={filterBy} />
+                        )}
                     </form>
                 </div>
             </header>

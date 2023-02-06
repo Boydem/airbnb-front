@@ -8,12 +8,12 @@ export function ImgCarousel({ imgUrls }) {
     const [elContainerWidth, setElContainerWidth] = useState(0)
 
     useEffect(() => {
-        setElContainerWidth(elContainer.current.offsetWidth)
         window.addEventListener('resize', handleResize)
+        setElContainerWidth(elContainer.current.offsetWidth)
         return () => {
             window.removeEventListener('resize', handleResize)
         }
-    }, [window.innerWidth])
+    }, [])
 
     function handleResize() {
         setElContainerWidth(elContainer.current.offsetWidth)
