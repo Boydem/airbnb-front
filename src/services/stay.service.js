@@ -50,11 +50,17 @@ function getDefaultFilter() {
         checkIn: null,
         checkOut: null,
         guests: { adults: null, children: null, infants: null, pets: null },
+
     }
 }
 
-function query(filterBy = getDefaultFilter()) {
-    return storageService.query(STAY_DB_KEY).then(stays => stays)
+async function query(filterBy = getDefaultFilter(), staysToDisplay) {
+    try {
+        let stays = await storageService.query(STAY_DB_KEY)
+        return stays.splice(0, staysToDisplay)
+    } catch (err) {
+        console.log('err:', err)
+    }
 }
 
 function get(stayId) {

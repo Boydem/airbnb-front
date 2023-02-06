@@ -9,7 +9,15 @@ export function ImgCarousel({ imgUrls }) {
 
     useEffect(() => {
         setElContainerWidth(elContainer.current.offsetWidth)
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
     }, [window.innerWidth])
+
+    function handleResize() {
+        setElContainerWidth(elContainer.current.offsetWidth)
+    }
 
     function onNextPrev(dir) {
         if ((currActive <= 0 && dir === -1) || (currActive >= imgUrls.length - 1 && dir === 1)) return
