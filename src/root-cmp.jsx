@@ -9,7 +9,7 @@ export function App() {
             <AppHeader />
             <main className='main-content main-layout'>
                 <Routes>
-                    <Route path='/airbnb-clone-frontend' element={<StayIndex />} />
+                    <Route path='/airbnb-front' element={<StayIndex />} />
                 </Routes>
             </main>
         </div>
