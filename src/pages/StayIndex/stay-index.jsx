@@ -47,7 +47,12 @@ export function StayIndex() {
     if (!stays || !stays.length) return <div>Loading...</div>
     return (
         <section className='stay-index'>
-            <StayList stays={stays} onSelectStay={onSelectStay} onAddToWishlist={onAddToWishlist} />
+            <StayList
+                isLoading={isLoading}
+                stays={stays}
+                onSelectStay={onSelectStay}
+                onAddToWishlist={onAddToWishlist}
+            />
         </section>
     )
 }

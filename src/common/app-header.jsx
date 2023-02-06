@@ -80,7 +80,13 @@ export function AppHeader() {
                         >
                             <label htmlFor='locationTo'>
                                 <div className='text-bold filter-title'>Where</div>
-                                <input type='text' id='locationTo' name='locationTo' value={filterBy.locationTo} />
+                                <input
+                                    placeholder='Search destinations'
+                                    type='text'
+                                    id='locationTo'
+                                    name='locationTo'
+                                    value={filterBy.locationTo}
+                                />
                             </label>
                             {activeModule === 'location' && (
                                 <FilterLocation filterBy={filterBy} onSelectRegion={onSelectRegion} />
