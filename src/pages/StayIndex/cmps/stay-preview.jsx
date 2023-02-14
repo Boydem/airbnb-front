@@ -1,9 +1,14 @@
 import { ImgCarousel } from './img-carousel'
 
-export function StayPreview({ stay, onSelectStay, onAddToWishlist }) {
+export function StayPreview({ stay, onSelectStay, onAddToWishlist, mapView = false }) {
     if (!stay) return <div>Loading...</div>
     return (
-        <article className='stay-preview'>
+        <article
+            onClick={ev => {
+                ev.stopPropagation()
+            }}
+            className={`stay-preview ${mapView ? 'map-view' : ''}`}
+        >
             <ImgCarousel imgUrls={stay.imgUrls} />
             <div className='details'>
                 <p className='inline-clamp name'>{stay.name}</p>

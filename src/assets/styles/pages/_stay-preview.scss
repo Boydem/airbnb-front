@@ -2,19 +2,16 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    text-align: start;
+    border-radius: 1rem;
     transition-duration: 200ms;
-    .images-carousel {
-        @include aspect-ratio(20/19);
-        object-fit: cover;
-        vertical-align: bottom;
-        overflow: clip;
-        border-radius: px-to-em(12px);
-        margin-bottom: px-to-em(12px);
-        flex: 1;
-    }
+    width: 100%;
+    background-color: #fff;
+
     .details {
         color: $base-text-color;
         display: grid;
+
         gap: 0.4em 0.8em;
         grid-template-columns: minmax(0, 1fr);
         flex-direction: column;
@@ -38,4 +35,26 @@
             }
         }
     }
+    &.map-view {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 300px;
+        transform: translateX(-50%);
+        .details {
+            padding: 1rem;
+        }
+        .img-carousel {
+            .images-container {
+                .carousel-item-container {
+                    @include aspect-ratio(6, 4);
+                }
+            }
+        }
+    }
+}
+
+.map-stay-preview {
+    position: relative;
+    top: 3rem;
 }

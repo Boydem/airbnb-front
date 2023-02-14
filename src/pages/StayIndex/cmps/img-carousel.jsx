@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BsChevronRight } from 'react-icons/bs'
 import { BsChevronLeft } from 'react-icons/bs'
 
@@ -7,6 +7,10 @@ export function ImgCarousel({ imgUrls }) {
     const [isScrolling, setIsScrolling] = useState(false)
     const elCarousel = useRef()
     const isNavigatingByDot = useRef(false)
+
+    useEffect(() => {
+        setCurrentImageIndex(0)
+    }, [imgUrls])
 
     useEffect(() => {
         const options = {
