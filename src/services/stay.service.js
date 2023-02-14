@@ -56,8 +56,8 @@ function getDefaultFilter() {
 
 async function query(filterBy = getDefaultFilter(), staysToDisplay) {
     try {
-        let stays = await storageService.query(STAY_DB_KEY)
-        return stays.splice(0, staysToDisplay)
+        let stays = await storageService.query(STAY_DB_KEY, staysToDisplay)
+        return stays
     } catch (err) {
         console.log('err:', err)
     }

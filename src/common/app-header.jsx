@@ -52,7 +52,7 @@ export function AppHeader() {
 
                     <div onClick={() => setIsFiltering(true)} className={`filter-cta ${isFiltering ? 'hide' : ''}`}>
                         <button onClick={() => setActiveModule('location')} className='filter-btn text-bold'>
-                            Any location
+                            Anywhere
                         </button>
                         <button onClick={() => setActiveModule('when')} className='filter-btn text-bold'>
                             Any week

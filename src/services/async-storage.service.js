@@ -6,9 +6,11 @@ export const storageService = {
     remove,
 }
 
-function query(entityType, delay = 500) {
+function query(entityType, idx, delay = 500) {
+    // supports pagination
+    const entitiesToDisplay = 24
     var entities = JSON.parse(localStorage.getItem(entityType)) || []
-    return new Promise(resolve => setTimeout(() => resolve(entities), delay))
+    return new Promise(resolve => setTimeout(() => resolve(entities.splice(idx, idx + entitiesToDisplay)), delay))
 }
 
 function get(entityType, entityId) {

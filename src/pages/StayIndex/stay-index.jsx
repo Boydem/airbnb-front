@@ -13,7 +13,7 @@ export function StayIndex() {
     const filterBy = useSelector(storeState => storeState.stayModule.filterBy)
 
     // Infinite scroll
-    let staysToDisplay = useRef(24)
+    let staysToDisplay = useRef(0)
 
     const handleScroll = ev => {
         if (isLoading) return
@@ -43,7 +43,6 @@ export function StayIndex() {
     function onSelectStay() {
         console.log('Todo:select stay')
     }
-    console.log('staysToDisplay.current:', staysToDisplay.current)
     if (!stays || !stays.length) return <div>Loading...</div>
     return (
         <section className='stay-index'>
