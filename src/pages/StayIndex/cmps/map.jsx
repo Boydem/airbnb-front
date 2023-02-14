@@ -39,7 +39,7 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
                         <div
                             ref={currStay?._id === idx ? currMarked : null}
                             onClick={() => onMarkerClick(idx)}
-                            className={`marker ${currStay._id === idx ? 'active' : ''}`}
+                            className={`marker ${currStay?._id === idx ? 'active' : ''}`}
                         >
                             {marker.price}
                         </div>
