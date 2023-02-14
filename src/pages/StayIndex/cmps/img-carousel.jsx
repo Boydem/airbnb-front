@@ -6,6 +6,7 @@ export function ImgCarousel({ imgUrls }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [isScrolling, setIsScrolling] = useState(false)
     const elCarousel = useRef()
+    const isNavigatingByDot = useRef(false)
 
     useEffect(() => {
         const options = {
@@ -16,8 +17,9 @@ export function ImgCarousel({ imgUrls }) {
 
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && !isNavigatingByDot.current) {
                     const idx = parseInt(entry.target.getAttribute('data-idx'))
+                    console.log('currentImageIndex:', idx)
                     setCurrentImageIndex(idx)
                 }
             })
@@ -29,16 +31,6 @@ export function ImgCarousel({ imgUrls }) {
             observer.disconnect()
         }
     }, [])
-
-    // useEffect(() => {
-    //     const itemWidth = elCarousel.current.offsetWidth // Width of a single item
-    //     console.log('currentImageIndex:', currentImageIndex)
-    //     const scrollPosition = currentImageIndex * itemWidth // Scroll position of the container
-    //     elCarousel.current.scrollTo({
-    //         left: scrollPosition,
-    //         behavior: 'smooth',
-    //     })
-    // }, [currentImageIndex])
 
     function handleNext() {
         const isLastIndex = currentImageIndex === imgUrls.length - 1
@@ -61,13 +53,8 @@ export function ImgCarousel({ imgUrls }) {
     }
 
     function handleDotClick(idx) {
-        const itemWidth = elCarousel.current.offsetWidth // Width of a single item
-        console.log('currentImageIndex:', currentImageIndex)
-        const scrollPosition = idx * itemWidth // Scroll position of the container
-        elCarousel.current.scrollTo({
-            left: scrollPosition,
-            behavior: 'smooth',
-        })
+        isNavigatingByDot.current = true
+        scrollToImage(idx)
         setCurrentImageIndex(idx)
     }
 
@@ -80,9 +67,15 @@ export function ImgCarousel({ imgUrls }) {
         })
     }
 
+    function handleScroll() {
+        if (elCarousel.current.scrollLeft % elCarousel.current.offsetWidth === 0) {
+            isNavigatingByDot.current = false
+        }
+    }
+
     return (
         <div className='img-carousel'>
-            <div ref={elCarousel} className='images-container'>
+            <div ref={elCarousel} className='images-container' onScroll={handleScroll}>
                 {imgUrls.map((imgUrl, idx) => (
                     <div key={'i' + idx} data-idx={idx} className='carousel-item-container'>
                         <img src={imgUrl} />
@@ -90,13 +83,17 @@ export function ImgCarousel({ imgUrls }) {
                 ))}
             </div>
             <div
-                className='arrow-right'
-                disabled={currentImageIndex === imgUrls.length - 1 || isScrolling}
+                className={`arrow-right ${currentImageIndex === imgUrls.length - 1 ? 'hidden' : ''}`}
+                disabled={isScrolling}
                 onClick={handleNext}
             >
                 <BsChevronRight />
             </div>
-            <div className='arrow-left' onClick={handlePrev} disabled={currentImageIndex === 0 || isScrolling}>
+            <div
+                className={`arrow-left ${currentImageIndex === 0 ? 'hidden' : ''}`}
+                onClick={handlePrev}
+                disabled={currentImageIndex === 0 || isScrolling}
+            >
                 <BsChevronLeft />
             </div>
             <div className='dots-pagination'>
