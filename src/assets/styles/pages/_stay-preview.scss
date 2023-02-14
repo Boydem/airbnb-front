@@ -36,11 +36,7 @@
         }
     }
     &.map-view {
-        position: absolute;
-        top: 50%;
-        left: 0%;
-        width: 300px;
-        transform: translateX(-50%);
+        width: 100%;
         .details {
             padding: 1rem;
         }
@@ -55,6 +51,8 @@
 }
 
 .map-stay-preview {
-    position: relative;
+    width: 300px;
+    transform: translateX(-50%);
+    position: absolute;
     top: 3rem;
 }

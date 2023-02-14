@@ -18,7 +18,8 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
         price: currencySign + stay.price.toLocaleString(),
     }))
     const [currStay, setCurrStay] = useState(null)
-    const currMarked = useRef()
+    const elSelectedMarker = useRef(null)
+    const elPreviewContainer = useRef(null)
 
     function onMarkerClick(idx) {
         const stay = stays[idx]
@@ -37,7 +38,7 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
                 {markers.map((marker, idx) => (
                     <div className='marker-container' key={'m' + idx} lat={marker.lat} lng={marker.lng}>
                         <div
-                            ref={currStay?._id === idx ? currMarked : null}
+                            ref={currStay?._id === idx ? elSelectedMarker : null}
                             onClick={() => onMarkerClick(idx)}
                             className={`marker ${currStay?._id === idx ? 'active' : ''}`}
                         >
@@ -45,21 +46,25 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
                         </div>
                     </div>
                 ))}
-                {currStay && (
-                    <div
-                        lat={currStay.loc.lat}
-                        lng={currStay.loc.lng}
-                        style={{ left: `${currMarked?.current?.offsetWidth / 2 || 0}px` }}
-                        className='map-stay-preview'
-                    >
+                <div
+                    lat={currStay?.loc.lat}
+                    lng={currStay?.loc.lng}
+                    ref={elPreviewContainer}
+                    style={{
+                        left: `${elSelectedMarker?.current?.offsetWidth / 2 || 0}px`,
+                        visibility: `${currStay ? 'visibile' : 'hidden'}`,
+                    }}
+                    className='map-stay-preview'
+                >
+                    {currStay && (
                         <StayPreview
                             onSelectStay={onSelectStay}
                             onAddToWishlist={onAddToWishlist}
                             stay={currStay}
                             mapView={true}
                         />
-                    </div>
-                )}
+                    )}
+                </div>
             </GoogleMapReact>
         </div>
     )
