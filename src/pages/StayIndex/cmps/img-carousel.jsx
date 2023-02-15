@@ -21,7 +21,7 @@ export function ImgCarousel({ imgUrls }) {
 
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !isNavigatingByDot.current) {
+                if (entry.isIntersecting) {
                     const idx = parseInt(entry.target.getAttribute('data-idx'))
                     setCurrentImageIndex(idx)
                 }
@@ -37,28 +37,21 @@ export function ImgCarousel({ imgUrls }) {
 
     function handleNext() {
         const isLastIndex = currentImageIndex === imgUrls.length - 1
-        if (!isLastIndex && !isScrolling) {
-            setIsScrolling(true)
+        if (!isLastIndex) {
             scrollToImage(currentImageIndex + 1)
-        } else {
-            setIsScrolling(false)
         }
     }
 
     function handlePrev() {
         const isFirstIndex = currentImageIndex === 0
-        if (!isFirstIndex && !isScrolling) {
-            setIsScrolling(true)
+        if (!isFirstIndex) {
             scrollToImage(currentImageIndex - 1)
-        } else {
-            setIsScrolling(false)
         }
     }
 
     function handleDotClick(idx) {
         isNavigatingByDot.current = true
         scrollToImage(idx)
-        setCurrentImageIndex(idx)
     }
 
     function scrollToImage(idx) {

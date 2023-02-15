@@ -19,28 +19,53 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
         price: currencySign + stay.price.toLocaleString(),
         _id: stay._id,
     }))
+
     // Preview stay states and data
     const [stayToPreview, setStayToPreview] = useState(null)
     const [elSelectedMarker, setElCurrentMarker] = useState(null)
     const elPreviewContainer = useRef(null)
+    const [isZoomDisabled, setIsZoomDisabled] = useState(false)
 
     const onRefChange = useCallback(
         markerNode => {
-            if (markerNode === null) {
-                // Unmounted marker ref
-                setElCurrentMarker(null)
-            } else {
+            if (markerNode !== null) {
                 // Makrer ref changed and exists
                 setElCurrentMarker(markerNode)
+                return
             }
+            // Else unmounted marker ref
         },
         [stayToPreview]
     )
 
+    function handleMapClick(evProps) {
+        setStayToPreview(null)
+    }
+
+    function mapOptions() {
+        return {
+            styles: mapStyles,
+            disableDoubleClickZoom: isZoomDisabled ? true : false,
+        }
+    }
+
     // Preview methods
-    function onMarkerClick(stayId) {
-        const stay = stays.find(stay => stay._id === stayId)
+    function onMarkerClick(ev, idx) {
+        ev.stopPropagation()
+        const stay = stays[idx]
         setStayToPreview(stay)
+    }
+
+    function onPreviewClick(ev) {
+        ev.stopPropagation()
+    }
+
+    function handlePreviewMouseEnter() {
+        setIsZoomDisabled(true)
+    }
+
+    function handlePreviewMouseLeave() {
+        setIsZoomDisabled(false)
     }
 
     function previewConrtainerStyles() {
@@ -56,13 +81,14 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
                 bootstrapURLKeys={{ key: apiKey }}
                 defaultCenter={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
-                options={{ styles: mapStyles }}
+                options={mapOptions()}
+                onClick={handleMapClick}
             >
                 {markers.map((marker, idx) => (
                     <div className='marker-container' key={'m' + idx} lat={marker.lat} lng={marker.lng}>
                         <div
+                            onClick={ev => onMarkerClick(ev, idx)}
                             ref={stayToPreview?._id === marker._id ? onRefChange : null}
-                            onClick={() => onMarkerClick(marker._id)}
                             className={`marker ${stayToPreview?._id === marker._id ? 'active' : ''}`}
                         >
                             {marker.price}
@@ -70,11 +96,14 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
                     </div>
                 ))}
                 <div
+                    onClick={onPreviewClick}
                     lat={stayToPreview?.loc.lat}
                     lng={stayToPreview?.loc.lng}
                     ref={elPreviewContainer}
                     style={previewConrtainerStyles()}
                     className='map-stay-preview'
+                    onMouseEnter={handlePreviewMouseEnter}
+                    onMouseLeave={handlePreviewMouseLeave}
                 >
                     {stayToPreview && (
                         <StayPreview
