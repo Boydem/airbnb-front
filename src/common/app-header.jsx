@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import airBnbLogo from '../assets/images/logo.svg'
 import { AppLogo } from './app-logo'
 import { BiSearch } from 'react-icons/bi'
 import { FilterLocation } from '../pages/StayIndex/cmps/filter-location'
@@ -13,8 +12,8 @@ export function AppHeader() {
     const filterBy = useSelector(storeState => storeState.stayModule.filterBy)
     const [activeModule, setActiveModule] = useState(null)
     const elHeader = useRef()
-    const elFilterForm = useRef()
     const elScreen = useRef()
+    const elFilterForm = useRef()
 
     useEffect(() => {
         if (isFiltering) {

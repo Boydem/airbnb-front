@@ -1,8 +1,9 @@
 import GoogleMapReact from 'google-map-react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { StayPreview } from './stay-preview'
 
 export function Map({ stays, onSelectStay, onAddToWishlist }) {
+    // Map setup and data
     const apiKey = 'AIzaSyB_EGN1HMBcl7uYM0IBR2jGP3-SGW3pznk'
     const currencySign = '$'
     const defaultProps = {
@@ -16,15 +17,37 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
         lat: stay.loc.lat,
         lng: stay.loc.lng,
         price: currencySign + stay.price.toLocaleString(),
+        _id: stay._id,
     }))
-    const [currStay, setCurrStay] = useState(null)
-    const elSelectedMarker = useRef(null)
+    // Preview stay states and data
+    const [stayToPreview, setStayToPreview] = useState(null)
+    const [elSelectedMarker, setElCurrentMarker] = useState(null)
     const elPreviewContainer = useRef(null)
 
-    function onMarkerClick(idx) {
-        const stay = stays[idx]
-        stay._id = idx
-        setCurrStay(stay)
+    const onRefChange = useCallback(
+        markerNode => {
+            if (markerNode === null) {
+                // Unmounted marker ref
+                setElCurrentMarker(null)
+            } else {
+                // Makrer ref changed and exists
+                setElCurrentMarker(markerNode)
+            }
+        },
+        [stayToPreview]
+    )
+
+    // Preview methods
+    function onMarkerClick(stayId) {
+        const stay = stays.find(stay => stay._id === stayId)
+        setStayToPreview(stay)
+    }
+
+    function previewConrtainerStyles() {
+        return {
+            left: `${elSelectedMarker?.offsetWidth / 2}px`,
+            visibility: `${stayToPreview ? 'visibile' : 'hidden'}`,
+        }
     }
 
     return (
@@ -38,29 +61,26 @@ export function Map({ stays, onSelectStay, onAddToWishlist }) {
                 {markers.map((marker, idx) => (
                     <div className='marker-container' key={'m' + idx} lat={marker.lat} lng={marker.lng}>
                         <div
-                            ref={currStay?._id === idx ? elSelectedMarker : null}
-                            onClick={() => onMarkerClick(idx)}
-                            className={`marker ${currStay?._id === idx ? 'active' : ''}`}
+                            ref={stayToPreview?._id === marker._id ? onRefChange : null}
+                            onClick={() => onMarkerClick(marker._id)}
+                            className={`marker ${stayToPreview?._id === marker._id ? 'active' : ''}`}
                         >
                             {marker.price}
                         </div>
                     </div>
                 ))}
                 <div
-                    lat={currStay?.loc.lat}
-                    lng={currStay?.loc.lng}
+                    lat={stayToPreview?.loc.lat}
+                    lng={stayToPreview?.loc.lng}
                     ref={elPreviewContainer}
-                    style={{
-                        left: `${elSelectedMarker?.current?.offsetWidth / 2 || 0}px`,
-                        visibility: `${currStay ? 'visibile' : 'hidden'}`,
-                    }}
+                    style={previewConrtainerStyles()}
                     className='map-stay-preview'
                 >
-                    {currStay && (
+                    {stayToPreview && (
                         <StayPreview
                             onSelectStay={onSelectStay}
                             onAddToWishlist={onAddToWishlist}
-                            stay={currStay}
+                            stay={stayToPreview}
                             mapView={true}
                         />
                     )}

@@ -1,4 +1,5 @@
 import { storageService } from './async-storage.service.js'
+import { utilService } from './util.service.js'
 var gStays = require('../json/stay.json') || null
 
 const STAY_DB_KEY = 'stayDB'
@@ -50,7 +51,6 @@ function getDefaultFilter() {
         checkIn: null,
         checkOut: null,
         guests: { adults: null, children: null, infants: null, pets: null },
-
     }
 }
 
@@ -83,6 +83,7 @@ function save(stay) {
 function _createStays() {
     let stays = JSON.parse(localStorage.getItem(STAY_DB_KEY)) || []
     if (!stays || !stays.length) {
+        gStays.forEach(s => (s._id = utilService.makeId()))
         localStorage.setItem(STAY_DB_KEY, JSON.stringify(gStays))
     }
 }

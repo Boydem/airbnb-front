@@ -23,7 +23,6 @@ export function ImgCarousel({ imgUrls }) {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !isNavigatingByDot.current) {
                     const idx = parseInt(entry.target.getAttribute('data-idx'))
-                    console.log('currentImageIndex:', idx)
                     setCurrentImageIndex(idx)
                 }
             })

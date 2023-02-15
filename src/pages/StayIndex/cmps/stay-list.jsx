@@ -1,17 +1,10 @@
 import { StayPreview } from './stay-preview.jsx'
 
-export function StayList({ stays, onSelectStay, onAddToWishlist, isLoading }) {
+export function StayList({ stays, onAddToWishlist, isLoading }) {
     return (
         <section className='stay-list'>
             {stays.map((stay, idx) => {
-                return (
-                    <StayPreview
-                        stay={stay}
-                        key={`s${idx}`}
-                        onSelectStay={onSelectStay}
-                        onAddToWishlist={onAddToWishlist}
-                    />
-                )
+                return <StayPreview stay={stay} key={`s${idx}`} onAddToWishlist={onAddToWishlist} />
             })}
             {isLoading &&
                 Array.apply(null, Array(24)).map((_, idx) => (
