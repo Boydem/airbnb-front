@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { utilService } from '../../services/util.service'
 import { FaMap } from 'react-icons/fa'
 import { FaListUl } from 'react-icons/fa'
 import { loadStays, setFilter, setSort } from '../../store/stay/stay.actions'
@@ -37,25 +35,16 @@ export function StayIndex() {
     function loadMoreStays() {
         loadStays(filterBy, staysToDisplay.current)
     }
-    // list images carousel
 
     function onAddToWishlist() {
         console.log('Todo:add to wishlist')
     }
 
-    function onSelectStay() {
-        console.log('Todo:select stay')
-    }
     if (!stays || !stays.length) return <div>Loading...</div>
     return (
         <section className='stay-index full main-layout'>
             {!mapView ? (
-                <StayList
-                    isLoading={isLoading}
-                    stays={stays}
-                    onSelectStay={onSelectStay}
-                    onAddToWishlist={onAddToWishlist}
-                />
+                <StayList isLoading={isLoading} stays={stays} onAddToWishlist={onAddToWishlist} />
             ) : (
                 <Map stays={stays} />
             )}
